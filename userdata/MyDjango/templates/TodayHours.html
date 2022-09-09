@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "base.html" %} {% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    {% block content %}
+    <link
+      href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+
+    {% autoescape off %}
+    {{ plot_div }}
+    {% endautoescape %}
+ 
+    {% endblock %}
+  </body>
+</html>

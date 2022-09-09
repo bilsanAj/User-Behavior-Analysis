@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% extends "base.html" %} {% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    {% block content %}
+    <link
+      href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+    <div
+      style="width: 100%;  "
+      id="table-wrapper"
+    >
+      <div id="table-scroll">
+        <table id="table" class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Count</th>
+              <th scope="col">Area</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    {% autoescape off %}
+  {{ plot_div }}
+  {% endautoescape %}
+    <script>
+  var mydata=[]
+      $(document).ready(function () {
+        $.ajax({
+          url: '{% url "getLastMonth" %}',
+          data: "",
+          dataType: "json",
+          success: function (data) {
+            console.log(data.data);
+            mydata = data.data
+            for (i in data.data) {
+              $("#table")
+                .find("tbody")
+                .append(
+                  "<tr><td>" +
+                    data.data[i]["count"] +
+                    "</td><td>" +
+                    data.data[i]["area"] +
+                    "</td></tr>"
+                );
+            }
+          },
+        });
+      });
+      console.log('mydata')
+      console.log(mydata)
+    </script>
+    {% endblock %}
+  </body>
+</html>

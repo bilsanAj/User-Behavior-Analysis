@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+
+<table style="height: 20px;" id = "table"
+ class="table table-bordered">
+  <thead>
+    <tr>
+      <th colspan="2" scope="col">Min</th>
+      <th colspan="2" scope="col">Max</th>
+      <th rowspan="2" scope="row">Mean</th>
+      <th rowspan="2" scope="row">Median</th>
+      <th rowspan="2" scope="row">Mode</th>
+    </tr>
+  </thead>
+  <tbody >
+  
+  </tbody>
+</table>
+
+{% autoescape off %}
+  {{ plot_div }}
+  {% endautoescape %}
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: '{% url "getMinMax" %}',
+      data: '',
+      dataType: 'json',
+        success: function (data) {
+          
+  
+    for (i in data.data.min)
+    {
+      console.log(data.data.max.length)
+
+      if (i <= data.data.max.length-1)
+
+      $('#table').find('tbody').append("<tr><td>" + data.data.min[i]['count']+ "</td><td>" + data.data.min[i]['area']+
+      "</td><td>" + data.data.max[i]['count']+ "</td><td>" + data.data.max[i]['area']+ "</td><td>" + data.data.mean+ "</td><td>" + 
+        data.data.median+ "</td><td>" + data.data.mode+ "</td></tr>");
+      else
+      $('#table').find('tbody').append("<tr><td>" + data.data.min[i]['count']+ "</td><td>" + data.data.min[i]['area']+ "</td></tr>");
+    }
+      },
+    });
+  })
+</script>
+    {% endblock  %}
+</body>
+</html>
